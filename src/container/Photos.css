@@ -1,0 +1,11 @@
+.photos-wrapper {
+  margin: 0 auto;
+  display: flex;
+  max-width: 1024px;
+  flex-wrap: wrap;
+}
+
+.photo-container {
+  padding: 10px;
+  width: 25%;
+}
