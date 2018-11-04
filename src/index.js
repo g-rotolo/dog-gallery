@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 import rootReducer from "./reducers/index";
 import "./index.css";
 import "./container/Photos.css";
-import "./component/Photo.css";
+import "./component/PhotoTab.css";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 

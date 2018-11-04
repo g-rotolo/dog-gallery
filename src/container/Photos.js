@@ -1,47 +1,49 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getPhotos } from "../actions/photosActions";
-import { getAllUsers } from "../actions/usersActions";
-import Photo from "../component/Photo";
-import UserInfo from "../component/UserInfo";
+import PhotoTab from "../component/PhotoTab";
+import ReactLoading from "react-loading";
 
 class Photos extends React.Component {
   componentDidMount() {
-    this.props.dispatch(getPhotos()).then(() => {
-      console.log(this.props);
-      this.props.dispatch(getAllUsers(this.props.photos));
-    });
+    this.props.dispatch(getPhotos());
   }
 
-  renderPhotoBox = () => {
+  renderPhotoTab = () => {
     return this.props.photos.map((photo, index) => {
       return (
-        <div key={`photo_box_${index}`} className="photo-container">
-          <UserInfo user={this.props.users[index]} />
-          <Photo
-            src={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${
-              photo.id
-            }_${photo.secret}_m.jpg`}
-          />
-        </div>
+        <PhotoTab
+          key={`photo_box_${index}`}
+          imageSrc={`https://farm${photo.farm}.staticflickr.com/${
+            photo.server
+          }/${photo.id}_${photo.secret}_m.jpg`}
+          userId={photo.owner}
+        />
       );
     });
   };
 
-  renderPhotoElement;
   render() {
-    if (this.props.isFetchingPhotos && this.props.isFetchingUsers) {
-      return <div>Loading...</div>;
+    if (this.props.isFetchingPhotos) {
+      return (
+        <div className="photos-wrapper">
+          <div className="center-screen">
+            <ReactLoading
+              type="spinningBubbles"
+              color="#393f4d"
+              className="spinner-centered"
+            />
+          </div>
+        </div>
+      );
     }
-    return <div className="photos-wrapper">{this.renderPhotoBox()}</div>;
+    return <div className="photos-wrapper">{this.renderPhotoTab()}</div>;
   }
 }
 
 const mapStateToProps = state => ({
   photos: state.photos.photos,
-  users: state.users.users,
   isFetchingPhotos: state.photos.isFetching,
-  isFetchingUsers: state.users.isFetching,
   error: state.photos.error
 });
 

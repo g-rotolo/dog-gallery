@@ -15,7 +15,6 @@ export default function photosReducer(state = initialState, action) {
     case GET_PHOTOS_REQUEST:
       return { ...state, isFetching: true, error: null };
     case GET_PHOTOS_SUCCESS:
-      console.log(action.payload.photos);
       return {
         ...state,
         photos: action.payload.photos,
